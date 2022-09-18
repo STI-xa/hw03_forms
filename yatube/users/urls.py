@@ -19,7 +19,8 @@ urlpatterns = [
         LogoutView.as_view(template_name='users/logged_out.html'),
         name='logout',
     ),
-    path('login/', LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('login/', 
+        LoginView.as_view(template_name='users/login.html'), name='login'),
     path(
         'password_reset/',
         PasswordResetView.as_view(
@@ -30,7 +31,9 @@ urlpatterns = [
     ),
     path(
         'password_reset_done/',
-        PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'),
+        PasswordResetDoneView.as_view(
+            template_name='users/password_reset_done.html'
+        ),
         name='password_reset_done',
     ),
     path(
@@ -43,7 +46,9 @@ urlpatterns = [
     ),
     path(
         'password_change_done/',
-        PasswordChangeDoneView.as_view(template_name='users/password_change_done.html'),
+        PasswordChangeDoneView.as_view(
+            template_name='users/password_change_done.html'
+        ),
         name='password_change_done',
     ),
 ]
