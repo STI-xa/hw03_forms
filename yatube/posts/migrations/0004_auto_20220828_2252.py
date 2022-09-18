@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('posts', '0003_auto_20220828_2231'),
+        ("posts", "0003_auto_20220828_2231"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='group',
-            name='title',
-            field=models.CharField(max_length=200, verbose_name='name of group'),
+            model_name="group",
+            name="title",
+            field=models.CharField(max_length=200, verbose_name="name of group"),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='pub_date',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='date of post'),
+            model_name="post",
+            name="pub_date",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="date of post"),
         ),
     ]

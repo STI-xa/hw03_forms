@@ -26,7 +26,7 @@ def post_edit(request, pk):
     if request.user != post.author:
         return redirect('posts:post_detail', pk)
     form = PostForm(request.POST or None, instance=post)
-    
+
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -52,9 +52,7 @@ def profile(request, username):
 
 def post_detail(request, post_id):
     post = Post.objects.get(id=post_id)
-    context = {
-        'post': post
-    }
+    context = {'post': post}
     return render(request, 'posts/post_detail.html', context)
 
 
@@ -68,7 +66,7 @@ def group_posts(request, slug):
         'group': group,
         'page_obj': page_obj,
     }
-    
+
     return render(request, 'posts/group_list.html', context)
 
 
