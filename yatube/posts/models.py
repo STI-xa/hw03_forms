@@ -34,8 +34,8 @@ class Post(models.Model):
         verbose_name='group of the posts',
     )
 
-    def __str__(self):
-        return self.text
-
     class Meta:
-        ordering = ['-pub_date']
+        ordering = ('-pub_date',)
+
+    def __str__(self):
+        return self.text[:25]

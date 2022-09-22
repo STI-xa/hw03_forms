@@ -5,19 +5,21 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PostForm
 from .models import Group, Post
+from .utils import paginator_function
 
 User = get_user_model()
 
 
 @login_required
 def post_create(request):
-    post = Post(author=request.user)
-    form = PostForm(request.POST or None, instance=post)
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            return redirect('posts:profile', request.user.username)
-    return render(request, 'posts/create_post.html', {'form': form})
+    form = PostForm(request.POST or None)
+    if form.is_valid():
+        new_post = form.save(commit=False)
+        new_post.author = request.user
+        new_post.save()
+        return redirect('posts:profile', request.user.username)
+    else:
+        return render(request, 'posts/create_post.html', {'form': form})
 
 
 @login_required
@@ -26,26 +28,22 @@ def post_edit(request, pk):
     if request.user != post.author:
         return redirect('posts:post_detail', pk)
     form = PostForm(request.POST or None, instance=post)
-
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            return redirect('posts:post_detail', pk)
-    return render(
-        request, 'posts/create_post.html', {'form': form, 'is_edit': True}
-    )
+    if form.is_valid():
+        form.save()
+        return redirect('posts:post_detail', pk)
+    else:
+        return render(
+                request, 'posts/create_post.html', {'form': form, 'is_edit': True}
+        )
 
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    posts = Post.objects.filter(author__username=username)
-    paginator = Paginator(posts, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    posts = author.posts.all()
     context = {
         'author': author,
-        'post': posts,
-        'page_obj': page_obj,
+        'posts': posts,
+        'page_obj': paginator_function(posts, request),
     }
     return render(request, 'posts/profile.html', context)
 
@@ -59,12 +57,9 @@ def post_detail(request, post_id):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     posts = group.posts.all()
-    paginator = Paginator(posts, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         'group': group,
-        'page_obj': page_obj,
+        'page_obj': paginator_function(posts, request),
     }
 
     return render(request, 'posts/group_list.html', context)
@@ -72,10 +67,7 @@ def group_posts(request, slug):
 
 def index(request):
     posts = Post.objects.all()
-    paginator = Paginator(posts, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
-        'page_obj': page_obj,
+        'page_obj': paginator_function(posts, request),
     }
     return render(request, 'posts/index.html', context)
