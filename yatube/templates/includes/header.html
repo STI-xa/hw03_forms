@@ -32,7 +32,7 @@
         </li>
         <li class="nav-item navbar-text">
           Пользователь: 
-          <a href="{% url 'posts:profile' post.author.username %}">{{ user.username }}</a>
+          <a href="{% url 'posts:profile' user.username %}">{{ user.username }}</a>
         </li>
         {% else %}
         <li class="nav-item"> 
