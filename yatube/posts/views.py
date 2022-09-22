@@ -31,7 +31,8 @@ def post_edit(request, pk):
         form.save()
         return redirect('posts:post_detail', pk)
     else:
-        return render(request,
+        return render(
+            request,
             'posts/create_post.html', {'form': form, 'is_edit': True}
         )
 
