@@ -32,7 +32,7 @@ def post_edit(request, pk):
         return redirect('posts:post_detail', pk)
     else:
         return render(
-                request, 
+                request,
                 'posts/create_post.html', {'form': form, 'is_edit': True}
         )
 
