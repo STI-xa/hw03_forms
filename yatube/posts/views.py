@@ -17,8 +17,7 @@ def post_create(request):
         new_post.author = request.user
         new_post.save()
         return redirect('posts:profile', request.user.username)
-    else:
-        return render(request, 'posts/create_post.html', {'form': form})
+    return render(request, 'posts/create_post.html', {'form': form})
 
 
 @login_required
@@ -42,14 +41,13 @@ def profile(request, username):
     posts = author.posts.all()
     context = {
         'author': author,
-        'posts': posts,
         'page_obj': paginator_function(posts, request),
     }
     return render(request, 'posts/profile.html', context)
 
 
 def post_detail(request, post_id):
-    post = Post.objects.get(id=post_id)
+    post = get_object_or_404(Post, id=post_id)
     context = {'post': post}
     return render(request, 'posts/post_detail.html', context)
 

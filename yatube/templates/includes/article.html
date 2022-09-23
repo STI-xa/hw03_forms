@@ -1,8 +1,10 @@
 <article>
   <ul>
+    {% if post and with_author %}
     <li>
-      Автор: {{ post.author.get_full_name }} <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
+      Автор: <a href="{% url 'posts:profile' post.author.username %}">{{ post.author.get_full_name }}</a>
     </li>
+    {% endif %}
     <li>
       Дата публикации: {{ post.pub_date|date:"d E Y" }}
     </li>
@@ -10,9 +12,7 @@
   <p>
     {{ post.text|linebreaks }}
   </p>
-  {% if post.group and group_link_on_page %}
+  {% if post.group %}
     <a href="{% url "posts:group_list" post.group.slug %}">все записи группы {{ post.group.title }}</a>
-  {% elif post.group and group_link_on_page_noname %}
-  <a href="{% url "posts:group_list" post.group.slug %}">все записи группы</a>
   {% endif %}
 </article>
