@@ -7,7 +7,7 @@
     <div class="container py-5">
       <h3>Всего постов: {{ author.posts.count }} </h3>
     {% for post in page_obj %}
-    {% include "includes/article.html" %}
+    {% include "includes/article.html" with group_link_on_page=True %}
     <a href="{% url "posts:post_detail" post.id %}">подробная информация</a>
       {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}

@@ -3,7 +3,7 @@
 {% block heading %}Последние обновления на сайте{% endblock %}
   {% block content %}
     {% for post in page_obj %}
-      {% include "includes/article.html" with with_author=True %}
+      {% include "includes/article.html" with with_author=True group_link_on_page=True %}
       <a href="{% url "posts:post_detail" post.id %}">подробная информация</a>
       {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}

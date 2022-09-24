@@ -12,7 +12,7 @@
   <p>
     {{ post.text|linebreaks }}
   </p>
-  {% if post.group %}
+  {% if post.group and group_link_on_page %}
     <a href="{% url "posts:group_list" post.group.slug %}">все записи группы {{ post.group.title }}</a>
   {% endif %}
 </article>
